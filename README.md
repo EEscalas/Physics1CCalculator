@@ -1,1 +1,1 @@
-# Physics1CCalculator
+# Physics 1C Calculator
