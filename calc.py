@@ -17,7 +17,6 @@ def getRadiansFromInput(angle):
         raise ValueError('units not given for angle')
     sign = contents[1]
     val = float(contents[0])
-    print(val, sign)
     if sign != "rad": # convert to radians
         val = val*math.pi/180
     return val
@@ -179,6 +178,13 @@ def focalPoint(f,s,sprime):
         return "s' = " + str(1/((1/float(f)) - (1/float(s))))
     else: return QMISSING
 
+def focalLength(r,f):
+    if r == "?":
+        return "R = " + str(float(f)*2)
+    if f == "?":
+        return "F = " + str(float(r)/2)
+    else: return QMISSING
+
 ################################
 ########  CHAPTER 35  ##########
 ################################
@@ -304,3 +310,12 @@ def lorentzV(v,vprime,udivc):
 
 def radiansToDegrees(rad):
     return "angle (in degrees) = " + str(float(rad)*180/math.pi) + "°"
+
+def wave(v,f,wvl):
+    if v == "?":
+        return "v = " + str(float(f) * float(wvl))
+    if f == "?":
+        return "f = " + str(float(v)/float(wvl))
+    if wvl == "?":
+        return "wavelength = " + str(float(v)/float(f))
+    else: return QMISSING

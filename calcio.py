@@ -157,8 +157,10 @@ def main():
             sprime = input("s': ")
             print(calc.focalPoint(f,s,sprime))
 
-        
-
+        elif equation == "focal length":
+            r = input("R: ")
+            f = input("F: ")
+            print(calc.focalLength(r,f))
 
         ########  CHAPTER 35  ##########
 
@@ -237,6 +239,12 @@ def main():
         elif equation == "degrees from radians":
             rad = input("angle (in radians): ")
             print(calc.radiansToDegrees(rad))
+
+        elif equation == "wave basics":
+            v = input("v: ")
+            f = input("f: ")
+            wvl = input("wavelength: ")
+            print(calc.wave(v,f,wvl))
 
 
 if __name__== "__main__" :
