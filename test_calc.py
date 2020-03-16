@@ -32,8 +32,19 @@ class TestCalculator(unittest.TestCase):
     # CHAPTER 35
 
     # CHAPTER 36
+    def test_single_slit_diffraction(self):
+        self.assertTrue(False)
+    
+    def test_single_slit_diffraction_intensity(self):
+        self.assertEqual(calc.singleSlitDiffractionIntensity("?","3.5","14","3.375","4 degrees"),"I = 2.6360781362135635")
 
     # CHAPTER 37
+
+    def test_time_dilation(self):
+        self.assertTrue(False)
+    
+    def test_time_dilation(self):
+        self.assertTrue(False)
 
 if __name__ == '__main__':
     unittest.main()
