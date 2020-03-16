@@ -1,184 +1,7 @@
 import math
 
-info = "\
-        Chapter 27: \n\
-            \t motion in a magnetic field\n\
-            \t hall effect\n\
-            \t magnetic torque\n\
-            \t magnetic potential energy\n\
-        Chapter 28: \n\
-        Chapter 29: \n\
-        Chapter 30: \n\
-        Chapter 31: \n\
-        Chapter 32: \n\
-        Chapter 33: \n\
-        Chapter 34: \n\
-        Chapter 35: \n\
-            \t double-slit interference bright fringe location\n\
-            \t double-slit interference intensity\n\
-        Chapter 36: \n\
-            \t single-slit diffraction\n\
-            \t single-slit diffraction intensity\n\
-        Chapter 37:\n\
-            \t time dilation\n\
-            \t length contraction\n\
-            \t gamma\n\
-            \t lorentz transformation: x\n\
-            \t lorentz transformation: t\n\
-            \t lorentz transformation: v\n\
-        Other: \n\
-            \t right hand rule\n\
-            "
-
 QMISSING = "No variable value requested (missing ?)"
 SPEEDOFLIGHT = 300000000
-
-def main():
-
-    equation = ""
-
-    while(equation != "exit"):
-        
-        equation = input("Equation Name: ")
-
-        if equation == "info":
-            print(info)
-
-        ########  CHAPTER 27  ##########
-
-        elif equation == "motion in a magnetic field":
-            r = input("R: ")
-            m = input("m: ")
-            v = input("v: ")
-            q = input("q: ")
-            b = input("b: ")
-            print(motionInMagneticField(r,m,v,q,b))
-
-        elif equation == "hall effect":
-            n = input("n: ")
-            q = input("q: ")
-            j = input("J: ")
-            b = input("B: ")
-            e = input("E: ")
-            print(hallEffect(n,q,j,b,e))
-
-        elif equation == "magnetic torque":
-            t = input("t: ")
-            i = input("I: ")
-            b = input("B: ")
-            a = input("A: ")
-            phi = input("phi: ")
-            print(magneticTorque(t,i,b,a,phi))
-
-        elif equation == "magnetic potential energy":
-            u = input("U: ")
-            miu = input("miu: ")
-            b = input("B: ")
-            phi = input("phi: ")
-            print(magneticPotentialEnergy(u,miu,b,phi))
-
-        ########  CHAPTER 28  ##########
-
-
-
-        ########  CHAPTER 29  ##########
-
-
-
-        ########  CHAPTER 30  ##########
-
-
-
-        ########  CHAPTER 31  ##########
-
-
-
-        ########  CHAPTER 32  ##########
-
-
-
-        ########  CHAPTER 33  ##########
-
-
-
-        ########  CHAPTER 34  ##########
-
-
-
-        ########  CHAPTER 35  ##########
-
-        elif equation == "double-slit interference bright fringe location":
-            y = input("y: ")
-            r = input("R: ")
-            m = input("m: ")
-            wvl = input("wavelength: ")
-            d = input("d: ")
-            print(doubleSlitInterferenceBrightFringeLocation(y,r,m,wvl,d))
-
-        elif equation == "double-slit interference intensity":
-            i = input("I: ")
-            i0 = input("I0: ")
-            phi = input("phi: ")
-            print(doubleSlitInterferenceIntensity(i,i0,phi))
-
-        ########  CHAPTER 36  ##########
-
-        elif equation == "single-slit diffraction":
-            m = input("m: ")
-            wvl = input("wavelength: ")
-            a = input("a: ")
-            theta = input("theta: ")
-            print(singleSlitDiffraction(m,wvl,a,theta))        
-        
-        elif equation == "single-slit diffraction intensity":
-            i = input("I: ")
-            i0 = input("I0: ")
-            a = input("a: ")
-            wvl = input("wavelength: ")
-            theta = input("theta: ")
-            print(singleSlitDiffractionIntensity(i,i0,a,wvl,theta))
-
-        ########  CHAPTER 37  ##########
-        
-        elif equation == "time dilation":
-            t = input("t: ")
-            t0 = input("t0: ")
-            udivc = input("u/c: ")
-            print(timeDilation(t,t0,udivc))
-
-        elif equation == "length contraction":
-            l = input("l: ")
-            l0 = input("l0: ")
-            udivc = input("u/c: ")
-            print(lengthContraction(l,l0,udivc))
-
-        elif equation == "gamma":
-            udivc = input("u/c: ")
-            g = input("gamma: ")
-            print(calculateGamma(udivc,g))
-
-        elif equation == "lorentz transformation: x":
-            x = input("x: ")
-            xprime = input("x': ")
-            udivc = input("u/c: ")
-            t = input("t: ")
-            print(lorentzX(x,xprime,udivc,t))
-
-        elif equation == "lorentz transformation: t":
-            t = input("t: ")
-            tprime = input("t': ")
-            udivc = input("u/c: ")
-            x = input("x: ")
-            print(lorentzT(t,tprime,udivc,x))
-
-        elif equation == "lorentz transformation: v":
-            v = input("v: ")
-            vprime = input("v': ")
-            udivc = input("u/c: ")
-            print(lorentzV(v,vprime,udivc))
-
-        ###########  OTHER  ############
-
 
 ##################################################
 ############ FUNCTION IMPLEMENTATIONS ############
@@ -189,8 +12,11 @@ def main():
 ##################################
 
 def getRadiansFromInput(angle):
-    sign = angle.split(" ")[1]
-    val = float(angle.split(" ")[0])
+    contents = angle.split(" ")
+    if len(contents) != 2:
+        raise ValueError('units not given for angle')
+    sign = contents[1]
+    val = float(contents[0])
     print(val, sign)
     if sign != "rad": # convert to radians
         val = val*math.pi/180
@@ -246,10 +72,9 @@ def magneticPotentialEnergy(u,miu,b,phi):
     if miu == "?":
         return "miu = " + str(float(u)/(-1*float(b)*math.cos(getRadiansFromInput(phi))))
     if b == "?":
-        return "miu = " + str(float(u)/(-1*float(miu)*math.cos(getRadiansFromInput(phi))))
+        return "b = " + str(float(u)/(-1*float(miu)*math.cos(getRadiansFromInput(phi))))
     if phi == "?":
-        return "in progress"
-        # TODO: sine inverse
+        return "phi = " + str(math.acos(float(u)/(-1*float(b)*float(miu)))) + " rad"
     else: return QMISSING
     
 ################################
@@ -268,6 +93,9 @@ def magneticPotentialEnergy(u,miu,b,phi):
 ########  CHAPTER 31  ##########
 ################################
 
+def impedance(r,w,l,c):
+    return "Z = " + str(math.sqrt(math.pow(float(r),2) + math.pow((float(w)*float(l)) - (1/(float(w) * float(c))),2)))
+
 ################################
 ########  CHAPTER 32  ##########
 ################################
@@ -276,9 +104,80 @@ def magneticPotentialEnergy(u,miu,b,phi):
 ########  CHAPTER 33  ##########
 ################################
 
+def lawOfRefraction(na,nb,theta_a,theta_b):
+    if na == "?":
+        return "na = " + str(math.sin(getRadiansFromInput(theta_a))/(float(nb)*math.sin(getRadiansFromInput(theta_b))))
+    if nb == "?":
+        return "nb = " + str(math.sin(getRadiansFromInput(theta_b))/(float(na)*math.sin(getRadiansFromInput(theta_a))))
+    if theta_a == "?":
+        return "theta (a) = " + str(math.asin((float(nb)*math.sin(getRadiansFromInput(theta_b)))/float(na))) + " rad"
+    if theta_b == "?":
+        return "theta (b) = " + str(math.asin((float(na)*math.sin(getRadiansFromInput(theta_a)))/float(nb))) + " rad"
+    else: return QMISSING
+
+def totalInternalReflection(na,nb,critical):
+    if na == "?":
+        return "na = " + str(float(nb)/math.sin(getRadiansFromInput(critical)))
+    if nb == "?":
+        return "nb = " + str(float(na)*math.sin(getRadiansFromInput(critical)))
+    if critical == "?":
+        return "theta (critical) = " + str(math.asin(float(nb)/float(na))) + " rad"
+    else: return QMISSING
+
 ################################
 ########  CHAPTER 34  ##########
 ################################
+
+def lateralMagnificationY(m,y,yprime):
+    if m == "?":
+        return "m = " + str(float(yprime)/float(y))
+    if y == "?":
+        return "y = " + str(float(yprime)/float(m))
+    if yprime == "?":
+        return "y' = " + str(float(m)*float(yprime))
+    else: return QMISSING
+
+def lateralMagnificationS(m,s,sprime):
+    if m == "?":
+        return "m = " + str(-1*float(sprime)/float(s))
+    if s == "?":
+        return "s = " + str(-1*float(sprime)/float(m))
+    if sprime == "?":
+        return "s' = " + str(-1*float(m)*float(sprime))
+    else: return QMISSING
+
+def lateralMagnificationRefractingSurfaces(m,s,sprime,na,nb):
+    if m == "?":
+        return "m = " + str(-1*float(na)*float(sprime)/(float(nb)*float(s)))
+    if nb == "?":
+        return "nb = " + str(-1*float(na)*float(sprime)/(float(m)*float(s)))
+    if s == "?":
+        return "s = " + str(-1*float(na)*float(sprime)/(float(m)*float(nb)))
+    if sprime == "?":
+        return "s = " + str(-1*float(m)*float(nb)*float(s)/float(na))
+    if na == "?":
+        return "s = " + str(-1*float(m)*float(nb)*float(s)/float(sprime))
+    else: return QMISSING
+
+def lensmaker(f,n,r1,r2):
+    if f == "?":
+        return "f = " + str(1/((float(n) - 1)) * ((1/float(r1)) - (1/float(r2))))
+    if n == "?":
+        return "n = " + str((1/(float(f) * ((1/float(r1)) - (1/float(r2))))) + 1)
+    if r1 == "?":
+        return "R1 = " + str((1/(float(f) * (float(n) - 1))) + (1/float(r2)))
+    if r2 == "?":
+        return "R2 = " + str(-1*(1/(float(f) * (float(n) - 1))) + (1/float(r1)))
+    else: return QMISSING
+
+def focalPoint(f,s,sprime):
+    if f == "?":
+        return "f = " + str(1/((1/float(s)) + (1/float(sprime))))
+    if s == "?":
+        return "s = " + str(1/((1/float(f)) - (1/float(sprime))))
+    if sprime == "?":
+        return "s' = " + str(1/((1/float(f)) - (1/float(s))))
+    else: return QMISSING
 
 ################################
 ########  CHAPTER 35  ##########
@@ -298,7 +197,7 @@ def doubleSlitInterferenceBrightFringeLocation(y,r,m,wvl,d):
     else: return QMISSING
 
 def doubleSlitInterferenceIntensity(i,i0,phi):
-    return "hello world"
+    return QMISSING
 
 ################################
 ########  CHAPTER 36  ##########
@@ -312,7 +211,7 @@ def singleSlitDiffraction(m,wvl,a,theta):
     if a == "?":
         return "a = " + str(float(m)*float(wvl)/float(math.sin(getRadiansFromInput((theta)))))
     if theta == "?":
-        return "theta = " + str(math.asin(float(m)*float(wvl)/float(a)))
+        return "theta = " + str(math.asin(float(m)*float(wvl)/float(a))) + " rad"
     else: return QMISSING
 
 def singleSlitDiffractionIntensity(i,i0,a,wvl,theta):
@@ -348,7 +247,7 @@ def timeDilation(t,t0,udivc):
         return "t0 = " + str(float(t)/getGamma(udivc))
     if udivc == "?":
         gamma = getGamma(udivc)
-        return "u/c = " + str(udivcFromGamma)
+        return "u/c = " + str(udivcFromGamma(gamma))
     else: return QMISSING
 
 def lengthContraction(l,l0,udivc):
@@ -374,6 +273,9 @@ def lorentzX(x,xprime,udivc,t):
     else: return QMISSING
 
 def lorentzT(t,tprime,udivc,x):
+    if udivc == "?":
+        return "outside scope of program: find out by hand"
+    
     u = float(udivc) * SPEEDOFLIGHT
     c2 = SPEEDOFLIGHT * SPEEDOFLIGHT
 
@@ -382,20 +284,23 @@ def lorentzT(t,tprime,udivc,x):
     if t == "?":
         return "t = " + str((float(tprime)/getGamma(udivc)) + (u*float(x)/c2))
     if x == "?":
-        return "x = in progress..."
-        # TODO
-    if udivc == "?":
-        # TODO
-        return "u/c = in progress..."
-
+        return "x = " + str(((float(t) - (float(tprime)/getGamma(udivc))) * math.pow(SPEEDOFLIGHT,2))/u)
     else: return QMISSING
 
 def lorentzV(v,vprime,udivc):
-    return QMISSING
+    if udivc == "?":
+        return "outside scope of program: find out by hand"
+    
+    u = float(udivc) * SPEEDOFLIGHT
+    if v == "?":
+        return "v = " + str((float(vprime) + u)/(1 + ((u * float(vprime))/math.pow(SPEEDOFLIGHT,2))))
+    if vprime == "?":
+        return "v' = " + str((float(v) - u)/(1 - ((u * float(v))/math.pow(SPEEDOFLIGHT,2))))
+    else: return QMISSING
 
 ################################
 ###########  OTHER  ############
 ################################
 
-if __name__== "__main__" :
-    main()
+def radiansToDegrees(rad):
+    return "angle (in degrees) = " + str(float(rad)*180/math.pi) + "°"
