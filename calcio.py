@@ -18,6 +18,10 @@ info = "\
             \t voltage given amplitude\n\
             \t current\n\
             \t average power\n\
+            \t voltage (R)\n\
+            \t voltage (L)\n\
+            \t voltage (C)\n\
+            \t all voltages given max \n\
         Chapter 32: \n\
             \t electromagnetic wave amplitudes\n\
             \t average pressure\n\
@@ -175,6 +179,47 @@ def main():
             i = input("I: ")
             phi = input("phi: ")
             print(calc.power(v,i,phi))
+
+        elif equation == "voltage (R)":
+            i = input("I: ")
+            r = input("R: ")
+            w = input("omega: ")
+            t = input("t: ")
+            v = float(i)*float(r)
+            print(calc.voltageGivenAmplitude(v,w,"0 degrees",t))
+        
+        elif equation == "voltage (L)":
+            i = input("I: ")
+            l = input("L: ")
+            w = input("omega: ")
+            t = input("t: ")
+            v = float(i)*float(w)*float(l)
+            print(calc.voltageGivenAmplitude(v,w,"90 degrees",t))
+
+        elif equation == "voltage (C)":
+            i = input("I: ")
+            c = input("C: ")
+            w = input("omega: ")
+            t = input("t: ")
+            v = float(i)*(1/(float(w)*float(c)))
+            print(calc.voltageGivenAmplitude(v,w,"-90 degrees",t))
+
+        elif equation == "all voltages given max voltage":
+            v = input("V: ")
+            i = input("I: ")
+            t = input("t: ")
+            w = input("omega: ")
+            phi = input("phi: ")
+            l = input("L: ")
+            r = input("R: ")
+            c = input("C: ")
+            print("v",calc.voltageGivenAmplitude(v,w,phi,t))
+            vr = float(i)*float(r)
+            print("R", calc.voltageGivenAmplitude(vr,w,"0 degrees",t))
+            vl = float(i)*float(w)*float(l)
+            print("L",calc.voltageGivenAmplitude(vl,w,"90 degrees",t))
+            vc = float(i)*(1/(float(w)*float(c)))
+            print("C",calc.voltageGivenAmplitude(vc,w,"-90 degrees",t))
 
         ########  CHAPTER 32  ##########
         """
