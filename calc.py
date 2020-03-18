@@ -2,6 +2,8 @@ import math
 
 QMISSING = "No variable value requested (missing ?)"
 SPEEDOFLIGHT = 300000000
+EPSILON = 8.854e-12
+MIUNOUGHT = math.pi*4*math.pow(10,-7)
 
 ##################################################
 ############ FUNCTION IMPLEMENTATIONS ############
@@ -84,6 +86,18 @@ def magneticPotentialEnergy(u,miu,b,phi):
 ########  CHAPTER 29  ##########
 ################################
 
+def dispCurrentDensity(j,i,r):
+    if j == "?":
+        return "j = " + str(float(i)/(math.pi*math.pow(float(r),2)))
+    if i == "?":
+        return "i = " + str(float(j)*math.pi*math.pow(float(r),2))
+    if r == "?":
+        return "R = " + str(math.sqrt(float(i)/(float(j)*math.pi)))
+    else: return QMISSING
+
+def bFromAmpereTwoPlates(r,R,i):
+    return "B = " + str((MIUNOUGHT*float(r)*float(i))/(2*math.pi*math.pow(float(R),2)))
+
 ################################
 ########  CHAPTER 30  ##########
 ################################
@@ -92,12 +106,50 @@ def magneticPotentialEnergy(u,miu,b,phi):
 ########  CHAPTER 31  ##########
 ################################
 
+def getImpedance(r,w,l,c):
+    return math.sqrt(math.pow(float(r),2) + math.pow((float(w)*float(l)) - (1/(float(w) * float(c))),2))
+
 def impedance(r,w,l,c):
-    return "Z = " + str(math.sqrt(math.pow(float(r),2) + math.pow((float(w)*float(l)) - (1/(float(w) * float(c))),2)))
+    return "Z = " + str(getImpedance(r,w,l,c))
+
+def lrcPhaseAngle(phi,w,l,r,c):
+    return "phi = " + str(math.atan(((float(w)*float(l)) - (1/(float(w)*float(c))))/float(r)))
+
+def voltage(i,l,r,c,w,phi,t):
+    return "v = " + str(float(i)*getImpedance(r,w,l,c)*math.cos((float(w)*float(t)) + getRadiansFromInput(phi)))
+
+def voltageGivenAmplitude(v,w,phi,t):
+    return "v = " + str(float(v)*math.cos((float(w)*float(t)) + getRadiansFromInput(phi)))
+    
+def current(i,w,t,phi):
+    return "i = " + str(float(i)*math.cos((float(w)*float(t)) + getRadiansFromInput(phi)))
+
+def power(v,i,phi):
+    return "P = " + str(0.5*float(v)*float(i)*math.cos(getRadiansFromInput(phi)))
 
 ################################
 ########  CHAPTER 32  ##########
 ################################
+
+def electromagneticWaveAmplitudes(B,E):
+    if B == "?":
+        return "B = " + str(float(E)/SPEEDOFLIGHT)
+    if E == "?":
+        return "E = " + str(float(B)*SPEEDOFLIGHT)
+    else: return QMISSING
+
+def averagePressure(Emax,Bmax):
+    return "Pav = " + str((float(Emax)*float(Bmax))/(MIUNOUGHT*SPEEDOFLIGHT))
+
+def intensityFromPower(I,p,a):
+    if I == "?":
+        return "I = " + str(float(p)/float(a))
+    if p == "?":
+        return "p = " + str(float(I)*float(a))
+    if a == "?":
+        return "A = " + str(float(p)/float(I))
+    else: return QMISSING
+
 
 ################################
 ########  CHAPTER 33  ##########
@@ -127,13 +179,24 @@ def totalInternalReflection(na,nb,critical):
 ########  CHAPTER 34  ##########
 ################################
 
+def lateralMagnification(s,sprime,y,yprime):
+    if s == "?":
+        return "s = " + str((-1*float(sprime)*float(y))/float(yprime))
+    if sprime == "?":
+        return "s' = " + str((-1*float(s)*float(yprime))/float(y))
+    if y == "?":
+        return "y = " + str((-1*float(s)*float(yprime))/float(y))
+    if yprime == "?":
+        return "y' = " + str((-1*float(sprime)*float(y))/float(s))
+    else: return QMISSING
+
 def lateralMagnificationY(m,y,yprime):
     if m == "?":
         return "m = " + str(float(yprime)/float(y))
     if y == "?":
         return "y = " + str(float(yprime)/float(m))
     if yprime == "?":
-        return "y' = " + str(float(m)*float(yprime))
+        return "y' = " + str(float(m)*float(y))
     else: return QMISSING
 
 def lateralMagnificationS(m,s,sprime):
@@ -156,6 +219,30 @@ def lateralMagnificationRefractingSurfaces(m,s,sprime,na,nb):
         return "s = " + str(-1*float(m)*float(nb)*float(s)/float(na))
     if na == "?":
         return "s = " + str(-1*float(m)*float(nb)*float(s)/float(sprime))
+    else: return QMISSING
+
+def distancesSphericalRefracting(na,nb,s,sprime,r):
+    if na == "?":
+        return "na = " + str((float(nb)/float(r)) - (float(nb)/float(sprime)) / ((1/float(s)) + (1/float(r))))
+    if nb == "?":
+        return "nb = " + str((float(na)/float(r)) + (float(na)/float(s)) / ((1/float(r)) - (1/float(sprime))))
+    if s == "?":
+        return "s = " + str(float(na)/((float(nb)/float(r)) - (float(na)/float(r)) - (float(nb)/float(sprime))))
+    if sprime == "?":
+        return "s' = " + str(float(nb)/((float(nb)/float(r)) - (float(na)/float(r)) - (float(na)/float(s))))
+    if r == "?":
+        return "R = " + str((float(nb) - float(na))/((float(na)/float(s)) + (float(nb)/float(sprime))))
+    else: return QMISSING
+
+def distancesPlaneRefracting(na,nb,s,sprime):
+    if na == "?":
+        return "na = " + str(float(s)*-1*(float(nb)/float(sprime)))
+    if nb == "?":
+        return "nb = " + str(float(sprime)*-1*(float(na)/float(s)))
+    if s == "?":
+        return "s = " + str(float(na)*-1*(float(sprime)/float(nb)))
+    if sprime == "?":
+        return "s' = " + str(float(nb)*-1*(float(s)/float(na)))
     else: return QMISSING
 
 def lensmaker(f,n,r1,r2):
@@ -185,6 +272,15 @@ def focalLength(r,f):
         return "F = " + str(float(r)/2)
     else: return QMISSING
 
+def focalPointCSM(r,s,sprime):
+    if r == "?":
+        return "f = " + str(2/((1/float(s)) + (1/float(sprime))))
+    if s == "?":
+        return "s = " + str(1/((2/float(r)) - (1/float(sprime))))
+    if sprime == "?":
+        return "s' = " + str(1/((2/float(r)) - (1/float(s))))
+    else: return QMISSING
+
 ################################
 ########  CHAPTER 35  ##########
 ################################
@@ -203,7 +299,33 @@ def doubleSlitInterferenceBrightFringeLocation(y,r,m,wvl,d):
     else: return QMISSING
 
 def doubleSlitInterferenceIntensity(i,i0,phi):
-    return QMISSING
+    if i == "?":
+        return "I = " + str(float(i0)*math.pow(math.cos(float(phi)/2),2))
+    if i0 == "?":
+        return "I0 = " + str(float(i)/math.pow(math.cos(float(phi)/2),2))
+    if phi == "?":
+        return "phi = " + str(2*math.acos(math.sqrt(float(i)/float(i0))))
+    else: return QMISSING
+
+def doubleSlitInterference(offset,d,theta,wvl,m):
+    if d == "?":
+        return "d = " + str(((float(m)+float(offset))*float(wvl))/math.sin(getRadiansFromInput(theta)))
+    if m == "?":
+        return "m = " + str(((float(d)*math.sin(getRadiansFromInput(theta))/float(wvl)) - float(offset)))
+    if theta == "?":
+        return "theta = " + str(math.asin((float(m)+float(offset))*float(wvl)/float(d)))
+    if wvl == "?":
+        return "wavelength = " + str(((float(d)*math.sin(getRadiansFromInput(theta))/float(m)) - float(offset)))
+    else: return QMISSING
+
+def phaseAngle(phi,wvl,diff):
+    if phi == "?":
+        return "phi = " + str(float(diff)*2*math.pi/float(wvl))
+    if diff == "?":
+        return "r2 - r1 = " + str(getRadiansFromInput(phi)*float(wvl)/2*math.pi)
+    if wvl == "?":
+        return "wavelength = " + str(float(diff)*2*math.pi/getRadiansFromInput(phi))
+    else: return QMISSING
 
 ################################
 ########  CHAPTER 36  ##########
@@ -220,9 +342,13 @@ def singleSlitDiffraction(m,wvl,a,theta):
         return "theta = " + str(math.asin(float(m)*float(wvl)/float(a))) + " rad"
     else: return QMISSING
 
-def singleSlitDiffractionIntensity(i,i0,a,wvl,theta):
+def singleSlitDiffractionIntensity(i,i0,a,wvl,theta,thetaType):
     if a == "?" or wvl == "?" or theta == "?": return "too much math, must do by hand"
-    beta = 2*math.pi*float(a)*math.sin(getRadiansFromInput((theta)))/float(wvl)
+    if thetaType == "s":
+        sintheta = float(theta)
+    else:
+        sintheta = math.sin(getRadiansFromInput(theta))
+    beta = 2*math.pi*float(a)*sintheta/float(wvl)
     if i == "?" and i0 == "?":
         return "I = I0 * " + str(math.pow((math.sin(beta/2.0)/(beta/2.0)),2))
     if i == "?" and i0 != "?":
@@ -237,7 +363,7 @@ def getGamma(udivc):
     return float(1/(math.sqrt(1 - (float(udivc)*float(udivc)))))
 
 def udivcFromGamma(gamma):
-    return math.sqrt(1-(1/float(gamma)*float(gamma)))
+    return math.sqrt(1 - (1/math.pow(float(gamma),2)))
 
 def calculateGamma(udivc,gamma):
     if udivc == "?":
@@ -252,8 +378,8 @@ def timeDilation(t,t0,udivc):
     if t0 == "?":
         return "t0 = " + str(float(t)/getGamma(udivc))
     if udivc == "?":
-        gamma = getGamma(udivc)
-        return "u/c = " + str(udivcFromGamma(gamma))
+        print(float(t)/float(t0))
+        return "u/c = " + str(udivcFromGamma(float(t)/float(t0)))
     else: return QMISSING
 
 def lengthContraction(l,l0,udivc):
@@ -304,6 +430,15 @@ def lorentzV(v,vprime,udivc):
         return "v' = " + str((float(v) - u)/(1 - ((u * float(v))/math.pow(SPEEDOFLIGHT,2))))
     else: return QMISSING
 
+def speedTimeDist(v,t,d):
+    if v == "?":
+        return "v = " + str(float(d)/float(t))
+    if t == "?":
+        return "t = " + str(float(d)/float(v))
+    if d == "?":
+        return "d = " + str(float(v)*float(t))
+    else: return QMISSING
+
 ################################
 ###########  OTHER  ############
 ################################
@@ -319,3 +454,12 @@ def wave(v,f,wvl):
     if wvl == "?":
         return "wavelength = " + str(float(v)/float(f))
     else: return QMISSING
+"""
+def getCrossProductOutput(a,b,c):
+    return a + " x " + b + " = " + c
+
+def crossProduct(point,curl,thumb): 
+    if thumb == "?":
+        if point == "+x" and curl == "+y":
+            return getCrossProductOutput(point,curl,"+z")
+"""        

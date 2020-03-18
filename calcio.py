@@ -8,39 +8,61 @@ info = "\
             \t magnetic potential energy\n\
         Chapter 28: \n\
         Chapter 29: \n\
+            \t displacement current density (two plates)\n\
+            \t B field from Ampere's Law (two plates)\n\
         Chapter 30: \n\
-            \t impedance\n\
         Chapter 31: \n\
+            \t impedance\n\
+            \t L-R-C phase angle\n\
+            \t voltage\n\
+            \t voltage given amplitude\n\
+            \t current\n\
+            \t average power\n\
         Chapter 32: \n\
+            \t electromagnetic wave amplitudes\n\
+            \t average pressure\n\
+            \t instensity from power\n\
         Chapter 33: \n\
             \t law of refraction\n\
             \t total internal reflection\n\
         Chapter 34: \n\
              \t lateral magnification (y)\n\
              \t lateral magnification (s)\n\
+             \t lateral magnification (skip m)\n\
+             \t lateral magnification for refracting surfaces\n\
+             \t object and image distances (spherical refracting surface)\n\
+             \t object and image distances (plane refracting surface)\n\
              \t lensmaker\n\
              \t focal point\n\
-             \t lateral magnification for plane refracting surfaces\n\
+             \t focal point concave spherical mirror\n\
+             \t focal length\n\
         Chapter 35: \n\
-            \t double-slit interference bright fringe location\n\
+            \t bright fringe location\n\
+            \t double-slit interference\n\
             \t double-slit interference intensity\n\
+            \t phase angle\n\
         Chapter 36: \n\
+            \t bright fringe location\n\
             \t single-slit diffraction\n\
             \t single-slit diffraction intensity\n\
         Chapter 37:\n\
             \t time dilation\n\
             \t length contraction\n\
+            \t simple speed\n\
+            \t simple speed relative to light\n\
             \t gamma\n\
             \t lorentz transformation: x\n\
             \t lorentz transformation: t\n\
             \t lorentz transformation: v\n\
         Other: \n\
             \t degrees from radians\n\
+            \t wave basics\n\
             "
 
 def main():
 
     equation = ""
+    prev = ""
 
     while(equation != "exit"):
         
@@ -48,10 +70,13 @@ def main():
 
         if equation == "info":
             print(info)
+        elif equation == "prev":
+            equation = prev
+            print("now running",prev,"function again")
 
         ########  CHAPTER 27  ##########
 
-        elif equation == "motion in a magnetic field":
+        if equation == "motion in a magnetic field":
             r = input("R: ")
             m = input("m: ")
             v = input("v: ")
@@ -88,7 +113,17 @@ def main():
 
         ########  CHAPTER 29  ##########
 
+        elif equation == "displacement current density (two plates)":
+            j = input("j: ")
+            i = input("i: ")
+            r = input("R: ")
+            print(calc.dispCurrentDensity(j,i,r))
 
+        elif equation == "B field from Ampere's Law (two plates)":
+            r = input("r: ")
+            R = input("R: ")
+            i = input("i(c): ")
+            print(calc.bFromAmpereTwoPlates(r,R,i))
 
         ########  CHAPTER 30  ##########
 
@@ -97,14 +132,74 @@ def main():
         ########  CHAPTER 31  ##########
 
         elif equation == "impedance":
-            r = input("R: ")
             omega = input("omega: ")
             l = input("L: ")
+            r = input("R: ")
             c = input("C: ")
             print(calc.impedance(r,omega,l,c))
 
-        ########  CHAPTER 32  ##########
+        elif equation == "L-R-C phase angle":
+            phi = input("phi (phase angle): ")
+            w = input("omega (angular frequency): ")
+            l = input("L: ")
+            r = input("R: ")
+            c = input("C: ")
+            print(calc.lrcPhaseAngle(phi,w,l,r,c))
 
+        elif equation == "voltage":
+            i = input("I: ")
+            l = input("L: ")
+            r = input("R: ")
+            c = input("C: ")
+            t = input("t: ")
+            w = input("omega: ")
+            phi = input("phi: ")
+            print(calc.voltage(i,l,r,c,w,phi,t))
+
+        elif equation == "voltage given amplitude":
+            v = input("V: ")
+            t = input("t: ")
+            w = input("omega: ")
+            phi = input("phi: ")
+            print(calc.voltageGivenAmplitude(v,w,phi,t))
+
+        elif equation == "current":
+            i = input("I (amplitude): ")
+            w = input("omega: ")
+            t = input("t: ")
+            phi = input("phi: ")
+            print(calc.current(i,w,t,phi))
+
+        elif equation == "average power":
+            v = input("V: ")
+            i = input("I: ")
+            phi = input("phi: ")
+            print(calc.power(v,i,phi))
+
+        ########  CHAPTER 32  ##########
+        """
+        elif equation == "electromagnetic wave cross product":
+            E = input("E (sign direction): ")
+            B = input("B (sign direction): ")
+            W = input("Electromagnetic wave (sign direction): ")
+            print(calc.crossProduct(E,B,W))
+        """
+
+        if equation == "electromagnetic wave amplitudes":
+            B = input("Bmax: ")
+            E = input("Emax: ")
+            print(calc.electromagneticWaveAmplitudes(B,E))
+
+        if equation == "average pressure":
+            Emax = input("Emax: ")
+            Bmax = input("Bmax: ")
+            print(calc.averagePressure(Emax,Bmax))
+
+        if equation == "intensity from power":
+            i = input("I: ")
+            p = input("p (power): ")
+            a = input("A (area): ")
+            print(calc.intensityFromPower(i,p,a))
 
 
         ########  CHAPTER 33  ##########
@@ -136,7 +231,14 @@ def main():
             sprime = input("s': ")
             print(calc.lateralMagnificationS(m,s,sprime))
 
-        elif equation == "lateral magnification for plane refracting surfaces":
+        elif equation == "lateral magnification (skip m)":
+            s = input("s: ")
+            sprime = input("s': ")
+            y = input("y: ")
+            yprime = input("y': ")
+            print(calc.lateralMagnification(s,sprime,y,yprime))
+
+        elif equation == "lateral magnification for refracting surfaces":
             m = input("m: ")
             s = input("s: ")
             sprime = input("s': ")
@@ -162,9 +264,30 @@ def main():
             f = input("F: ")
             print(calc.focalLength(r,f))
 
+        elif equation == "focal point concave spherical mirror":
+            r = input("R: ")
+            s = input("s: ")
+            sprime = input("s': ")
+            print(calc.focalPointCSM(r,s,sprime))
+
+        elif equation == "object and image distances (spherical refracting surface)":
+            na = input("na: ")
+            nb = input("nb: ")
+            s = input("s: ")
+            sprime = input("s': ")
+            r = input("R: ")
+            print(calc.distancesSphericalRefracting(na,nb,s,sprime,r))
+
+        elif equation == "object and image distances (plane refracting surface)":
+            na = input("na: ")
+            nb = input("nb: ")
+            s = input("s: ")
+            sprime = input("s': ")
+            print(calc.distancesPlaneRefracting(na,nb,s,sprime))
+
         ########  CHAPTER 35  ##########
 
-        elif equation == "double-slit interference bright fringe location":
+        elif equation == "bright fringe location":
             y = input("y: ")
             r = input("R: ")
             m = input("m: ")
@@ -177,6 +300,23 @@ def main():
             i0 = input("I0: ")
             phi = input("phi: ")
             print(calc.doubleSlitInterferenceIntensity(i,i0,phi))
+
+        elif equation == "double-slit interference":
+            interferenceType = input("destructive or constructive (c/d): ")
+            if interferenceType == "c":
+                offset = 0
+            else: offset = 0.5
+            d = input("d: ")
+            theta = input("theta: ")
+            wvl = input("wavelength: ")
+            m = input("m: ")
+            print(calc.doubleSlitInterference(offset,d,theta,wvl,m))
+
+        elif equation == "phase angle":
+            phi = input("phase angle: ")
+            wvl = input("wavelength: ")
+            diff = input("(r2 - r1): ")
+            print(calc.phaseAngle(phi,wvl,diff))
 
         ########  CHAPTER 36  ##########
 
@@ -192,8 +332,11 @@ def main():
             i0 = input("I0: ")
             a = input("a: ")
             wvl = input("wavelength: ")
-            theta = input("theta: ")
-            print(calc.singleSlitDiffractionIntensity(i,i0,a,wvl,theta))
+            option = input("sin(theta) or theta (s/t): ")
+            if option == "s":
+                theta = input("sin(theta): ")
+            else: theta = input("theta: ")
+            print(calc.singleSlitDiffractionIntensity(i,i0,a,wvl,theta,option))
 
         ########  CHAPTER 37  ##########
         
@@ -234,6 +377,19 @@ def main():
             udivc = input("u/c: ")
             print(calc.lorentzV(v,vprime,udivc))
 
+        elif equation == "simple speed":
+            v = input("v: ")
+            t = input("t: ")
+            d = input("d: ")
+            print(calc.speedTimeDist(v,t,d))
+
+        elif equation == "simple speed relative to light":
+            udivc = input("u/c: ")
+            t = input("t: ")
+            d = input("d: ")
+            v = float(udivc) * calc.SPEEDOFLIGHT
+            print(calc.speedTimeDist(v,t,d))
+
         ###########  OTHER  ############
         
         elif equation == "degrees from radians":
@@ -246,6 +402,7 @@ def main():
             wvl = input("wavelength: ")
             print(calc.wave(v,f,wvl))
 
+        prev = equation
 
 if __name__== "__main__" :
     main()
